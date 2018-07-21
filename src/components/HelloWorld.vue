@@ -21,6 +21,7 @@ export default {
   name: 'echo',
   data () {
     return {
+      isConnected: false,
       message:'',
       chat: [],
       socket: ""
@@ -51,7 +52,24 @@ export default {
     disconnect() {
       this.socket.close();
     },
-  }
+    pingServer() {
+      // Send the "pingServer" event to the server.
+      this.$socket.emit('pingServer', 'PING!')
+    }
+  },
+  sockets: {
+    connect() {
+      // Fired when the socket connects.
+      this.isConnected = true;
+    },
+
+    disconnect() {
+      this.isConnected = false;
+    },
+    messageChannel(data) {
+      this.message = data
+    }
+  },
 }
 </script>
 
